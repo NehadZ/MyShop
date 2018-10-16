@@ -5,22 +5,24 @@ using System.Web;
 using System.Web.Mvc;
 using MyShop.DataAccess.InMemory;
 using MyShop.Core.Models;
+using MyShop.Core.Contracts;
 
 namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryMangerController : Controller
     {
 
-        ProductCategoryRepository context;
-        public ProductCategoryMangerController()
+
+        IInMemoryRepository<ProductCategeory> context;
+        public ProductCategoryMangerController(IInMemoryRepository<ProductCategeory> context)
         {
-            context = new ProductCategoryRepository();
+            this.context = context;
         }
         // GET: ProductManger
         public ActionResult Index()
         {
             
-            List<ProductCategeory> products = context.Collection().ToList();
+            List<ProductCategeory> products = context.collection().ToList();
             return View(products);
         }
 

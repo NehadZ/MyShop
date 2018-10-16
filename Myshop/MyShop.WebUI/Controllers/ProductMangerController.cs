@@ -6,22 +6,27 @@ using System.Web.Mvc;
 using MyShop.Core.Models;
 using MyShop.DataAccess.InMemory;
 using MyShop.Core.ViewsModels;
+using MyShop.Core.Contracts;
 
 namespace MyShop.WebUI.Controllers
 {
     public class ProductMangerController : Controller
     {
-        ProductRepository context;
-        ProductCategoryRepository productcategories;
-        public ProductMangerController()
+        IInMemoryRepository<Product> context;
+        IInMemoryRepository<ProductCategeory> productcategories;
+       
+        public ProductMangerController(IInMemoryRepository<Product> productContext, IInMemoryRepository<ProductCategeory> productCategoryContext)
         {
-            productcategories = new ProductCategoryRepository();
-            context = new ProductRepository();
+            
+            context =productContext;
+            productcategories = productCategoryContext;
+            
+            
         }
         // GET: ProductManger
         public ActionResult Index()
         {
-            List<Product> products = context.Collection().ToList();
+            List<Product> products = context.collection().ToList();
             return View(products);
         }
 
@@ -32,7 +37,7 @@ namespace MyShop.WebUI.Controllers
         {
             ProductMangerViewModel viewModel = new ProductMangerViewModel();
             viewModel.product = new Product();
-            viewModel.productCategeory = productcategories.Collection();
+            viewModel.productCategeory = productcategories.collection();
            return View(viewModel);
         }
         [HttpPost]
@@ -61,7 +66,7 @@ namespace MyShop.WebUI.Controllers
             {
                 ProductMangerViewModel viewModel = new ProductMangerViewModel();
                 viewModel.product = product;
-                viewModel.productCategeory = productcategories.Collection();
+                viewModel.productCategeory = productcategories.collection();
                 return View(viewModel);
             }
         }

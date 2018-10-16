@@ -7,17 +7,12 @@ using System.Threading.Tasks;
 
 namespace MyShop.Core.Models
 {
-   public class ProductCategeory
+   public class ProductCategeory:BaseEntity
     {
-        public string Id { get; set; }
+       
 
         [StringLength(20)]
         public string Category { get; set; }
       
-        public ProductCategeory()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-
     }
 }
